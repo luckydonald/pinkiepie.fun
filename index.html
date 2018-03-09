@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pinkie Pie Fun</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta property="og:site_name" content="Pinkie Pie Fun">
+    <meta property="og:url" content="https://pinkiepie.fun">
+    <meta property="og:title" content="Pinkie Pie Fun">
+    <meta property="og:image" content="https://pinkiepie.fun/img/pinkie_bounce_by_batmanbrony-d6rosgq.gif">
+    <!--<meta property="og:description" content="This is only a test, if telegram will see this text.">-->
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+      .v-hidden {
+        opacity: 0.0;
+      }
+      .v-display {
+        opacity: 1.0;
+      }
+      #bg {
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+      }
+      #bg img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        min-width: 50%;
+        min-height: 50%;
+        transition: opacity 1s;
+        -webkit-transition: opacity 1s;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="bg">
+    <img src="img/ponyville_background_1_by_scootaloooo-d4stsj3.png" class="v-display" alt="background should be here, but it derped, sorry." data-id="0">
+  </div>
+  <!-- JavaScript -->
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="pinkie.js"></script>
+    <script>
+        var pinkie = new Pinkie();  // And into her own reflection she stared, ...
+        pinkie.beReady(false); // fun awaits.
+        pinkie.click_will_close = true;
+
+        pinkie.onclickCreate("#bind");
+        pinkie.onclickRemove("#unbind");
+    </script>
+    <script>
+      var backgrounds = [
+          'ponyville_background_1_by_scootaloooo-d4stsj3.png'
+        , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
+        , 'background3_by_scootaloooo-d4t1xmp.png'
+      ];
+
+    var current = 0;
+    function getImg(image) {
+        return "img/"+image;
+    }
+    function nextBackground() {
+        current++;
+        current = current % backgrounds.length;
+        if (!$("#bg img[data-id='"+current+"']").length) {
+            var new_img = $('<img alt="background should be here, but it derped, sorry." data-id="'+current+'">');
+            new_img.attr('src', getImg(backgrounds[current]));
+            $('#bg').append(new_img);
+        }
+        for (var i = 0; i < backgrounds.length; i++) {
+            var img = $("#bg img[data-id='"+i+"']");
+            if (i < current|| i > current) {
+                // display
+                img.removeClass("v-hidden").addClass("v-display");
+
+            } else {
+                img.removeClass("v-display").addClass("v-hidden");
+            }
+        }
+    }
+    setInterval(nextBackground, 1000*10);
+    </script>
+  </body>
+</html>
