@@ -59,7 +59,20 @@
           'ponyville_background_1_by_scootaloooo-d4stsj3.png'
         , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
         , 'background3_by_scootaloooo-d4t1xmp.png'
+        , 'bg1_by_mlp_vector_collabs-d50sedv.svg'
+        , 'bg10_1_by_mlp_vector_collabs-d5ortfn.svg'
+        , 'vector_ponyvilleoutskirts01_by_mlp_vector_collabs-d5t0fm1.svg'
+        , 'vector_background12_by_mlp_vector_collabs-d5u9iam.svg'
+        , 'mlp_fim___twilight__s_laboratory_by_sigmavirus1-d4w6r2w.png'
       ];
+      var now = new Date();
+      if (now.getMonth() === 12) {
+          backgrounds[backgrounds.length] = 'ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png';
+      }
+      if (now.getHours() > 22 || now.getHours() < 4) {
+          backgrounds[backgrounds.length] = 'orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg';
+          backgrounds[backgrounds.length] = 'lake_at_night_by_xpesifeindx-d5wwkwg.svg';
+      }
 
     var current = 0;
     function getImg(image) {
@@ -75,10 +88,9 @@
         }
         for (var i = 0; i < backgrounds.length; i++) {
             var img = $("#bg img[data-id='"+i+"']");
-            if (i < current|| i > current) {
+            if (i <= current) {
                 // display
                 img.removeClass("v-hidden").addClass("v-display");
-
             } else {
                 img.removeClass("v-display").addClass("v-hidden");
             }
