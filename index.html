@@ -56,6 +56,18 @@
 
         pinkie.onclickCreate("#bind");
         pinkie.onclickRemove("#unbind");
+
+        var throttle = false;
+        $(document).on('click.pinkie-respawn', function (e) {
+            e = e.originalEvent || e;
+            if (!throttle && e.detail > 3) {
+                throttle = true;
+                pinkie.create();
+                setTimeout(function () {
+                    throttle = false;
+                }, 1000);
+            }
+        });
     </script>
     <script>
       var backgrounds = [

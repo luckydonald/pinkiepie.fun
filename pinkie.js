@@ -13,11 +13,13 @@ Pinkie.prototype = {
     img_url: pinkie_gif,
     click_will_close: false, // change this to true to allow deletion by click/tab.
     element: null, // jquery instance of pinkie
+    visible: false, // will be true when shown, false if not.
     remove: function () {
         this.unbind();
         if (this.element) {
             this.element.remove();
         }
+        this.visible = false;
     },
     create: function () {
         console.log("It is happening!");
@@ -41,6 +43,7 @@ Pinkie.prototype = {
             this.element = img;
         }
         this.element.appendTo(document.body);
+        this.visible = true;
         this.bind();
     },
     onclickCreate: function (selector) {
