@@ -14,11 +14,35 @@ Pinkie.prototype = {
     click_will_close: false, // change this to true to allow deletion by click/tab.
     element: null, // jquery instance of pinkie
     visible: false, // will be true when shown, false if not.
-    log: console.log, // set this to some other function to shut Pinkie's logging up.
+    log: function () {  // set this to some other function to shut Pinkie's logging up.
+        return console.log.apply(console, arguments);
+    },
+    calc_scale: function () {
+        var ratio = (window.devicePixelRatio || 1);
+        var w = $(window);
+        var pixel_factor = 1 / ratio;  // normal -> 1, retina -> 0.5
+        if (w.width() < 700 || w.height() < 700) {
+            return 0.5;
+        } else if (w.width() > 1920) {
+            return 1;
+        }
+        return pixel_factor;
+    },
+    calc_maxsize: function (apply) {
+        if (apply) {
+            return this.element.css(this.calc_maxsize());
+        }
+        var scale = this.calc_scale();
+        return {
+            "max-height": "" + (500 * scale) + "px",
+            "max-width": "" + (500 * scale) + "px"
+        };
+    },
     remove: function () {
         this.unbind();
         if (this.element) {
             this.element.remove();
+            this.log("Poof, I'm gone.")
         }
         this.visible = false;
     },
@@ -31,16 +55,18 @@ Pinkie.prototype = {
             img.addClass("easteregg");
             img.attr("id", this.id);
             img.attr("src", this.img_url);
-            img.css({
+            var scale = this.calc_scale();
+            var css = {
                 "z-index": 10000,
                 "position": "fixed",
                 "display": "block",
                 "right": 0,
                 "bottom": 0,
-                "max-height": "500px",
-                "max-width": "500px",
                 "pointer-events": "none"
-            });
+            };
+            this.log(css);
+            img.css(css);
+            img.css(this.calc_maxsize());
             this.element = img;
         }
         this.element.appendTo(document.body);
@@ -158,6 +184,7 @@ Pinkie.prototype = {
         this.setPos(x);
     },
     onClick: function (e) {
+        this.log("boop");
         if (this.click_will_close) {
             this.remove();
         }
