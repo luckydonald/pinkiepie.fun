@@ -14,6 +14,7 @@ Pinkie.prototype = {
     click_will_close: false, // change this to true to allow deletion by click/tab.
     element: null, // jquery instance of pinkie
     visible: false, // will be true when shown, false if not.
+    log: console.log, // set this to some other function to shut Pinkie's logging up.
     remove: function () {
         this.unbind();
         if (this.element) {
@@ -22,7 +23,7 @@ Pinkie.prototype = {
         this.visible = false;
     },
     create: function () {
-        console.log("It is happening!");
+        this.log("It is happening!");
         if (this.element === null) {
             // only create if not created yet.
             var img = $('<img/>');
@@ -78,7 +79,6 @@ Pinkie.prototype = {
     //http://jsfiddle.net/26n8hf4e/
     onOrient: function (e) {
         var t = e.originalEvent || e;
-        //console.log(t);
         if (t.gamma) {
             self.is_tilt = true;
         }
@@ -158,13 +158,12 @@ Pinkie.prototype = {
         this.setPos(x);
     },
     onClick: function (e) {
-        console.log("clocked", this, "lol", e);
         if (this.click_will_close) {
             this.remove();
         }
     },
     bind: function () {
-        console.log("uuuuh, so many events");
+        this.log("Uuuuuh listening to so many events. Clicks, mouse movements, gravity, twitchy tail,...");
         $(document)
             .on("click.pinkie", this.onClick.bind(this))
             .on('mousemove.pinkie', this.onMove.bind(this))
@@ -176,7 +175,7 @@ Pinkie.prototype = {
         }
     },
     unbind: function () {
-        console.log("ok, enough");
+        this.log("Ok, enough. Turning off my Pinkiesense.");
         $(document).off('.pinkie');
         $(window).off(".pinkie");
         this.element.off(".pinkie");
@@ -196,7 +195,6 @@ Pinkie.prototype = {
         // attach several function to the body onload event
         // Using .bind else `this` would later be the document, and not this instance.
         if(!disableAutostart) {
-            console.log("bootung1");
             $(this.create.bind(this));
         }
         if(!!disableAutostart && !disableFirstApril) {
@@ -205,6 +203,7 @@ Pinkie.prototype = {
         if (!disableEastereggClass) {
             $(this.registerEastereggClass.bind(this));
         }
+        this.log("Pinkie is ready!");
         return this;
     }
 };

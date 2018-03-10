@@ -6,6 +6,8 @@ if (!window.Raven) {
 }
 
 // func.bind() // iOS <= 5.1.1
+// https://stackoverflow.com/a/11054570/3423324
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 if (!Function.prototype.bind) {
   Function.prototype.bind = function(oThis) {
     if (typeof this !== 'function') {
