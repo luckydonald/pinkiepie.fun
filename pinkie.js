@@ -197,7 +197,7 @@ Pinkie.prototype = {
         if(!disableAutostart) {
             $(this.create.bind(this));
         }
-        if(!disableFirstApril) {
+        if(disableAutostart && !disableFirstApril) {
             $(this.checkAprilFool.bind(this));
         }
         if (!disableEastereggClass) {

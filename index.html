@@ -9,10 +9,16 @@
     <meta property="og:site_name" content="Pinkie Pie Fun">
     <meta property="og:url" content="https://pinkiepie.fun">
     <meta property="og:title" content="Pinkie Pie Fun">
-    <meta property="og:image" content="https://pinkiepie.fun/img/pinkie_bounce_by_batmanbrony-d6rosgq.gif">
-    <!--<meta property="og:description" content="This is only a test, if telegram will see this text.">-->
+    <meta property="og:image" content="http://pinkiepie.fun/img/pinkie_bounce_by_batmanbrony-d6rosgq.gif">
+    <meta property="og:image:secure_url" content="https://pinkiepie.fun/img/pinkie_bounce_by_batmanbrony-d6rosgq.gif">
+    <meta property="og:image:type" content="image/gif" />
+    <meta property="og:image" content="http://pinkiepie.fun/img/pinkie.png">
+    <meta property="og:image:secure_url" content="https://pinkiepie.fun/img/pinkie.png">
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:description" content="Sometimes you need a specific pink pony bouncing on your screen to cheer you up.">
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css?family=Bangers&text=Loading." rel="stylesheet">
     <style>
       .v-hidden {
         opacity: 0.0;
@@ -26,6 +32,7 @@
         left: -50%;
         width: 200%;
         height: 200%;
+        z-index: 1;
       }
       #bg img {
         position: absolute;
@@ -39,25 +46,110 @@
         transition: opacity 1s;
         -webkit-transition: opacity 1s;
       }
+      .batman-transition,body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+      }
+      .batman-transition-logo {
+          background-image: url("img/pinkiepiecm_by_uxyd-d50y91m.svg");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          position: absolute;
+          top: 0; left:0; width:100%; height: 100%;
+          text-align: center;
+          z-index: 200;
+          -webkit-animation: batman-transition-grow 1500ms infinite ease-in-out;
+          -o-animation: batman-transition-grow 1500ms infinite ease-in-out;
+          animation: batman-transition-grow 1500ms infinite ease-in-out;
+      }
+      .batman-transition-text {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          z-index: 201;
+          transform: translate(-50%, -50%);
+          -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+          -o-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+
+          font-size: 40px;
+          padding: 5px;
+          font-family: 'Bangers', cursive;
+          color: rgba(243,182,207,1);
+      }
+      .batman-transition.no-batman .batman-transition-logo{
+        -webkit-animation: none !important;
+        -moz-animation: none !important;
+        -o-animation: none !important;
+        animation: none !important;
+      }
+      .batman-transition.no-batman{
+        display: none;
+      }
+
+      @-webkit-keyframes batman-transition-grow {
+          0% { -webkit-transform:scale(0) rotate(0deg); }
+          40% { -webkit-transform:scale(0.7) rotate(360deg); }
+          45% { -webkit-transform:scale(0.9); }
+          50% { -webkit-transform:scale(1);}
+          55% { -webkit-transform:scale(0.8) rotate(360deg); }
+          100% { -webkit-transform:scale(0) rotate(720deg); }
+      }
+      @-moz-keyframes batman-transition-grow {
+          0% { -moz-transform:scale(0) rotate(0deg); }
+          40% { -moz-transform:scale(0.7) rotate(360deg); }
+          45% { -moz-transform:scale(0.9); }
+          50% { -moz-transform:scale(1);}
+          55% { -moz-transform:scale(0.8) rotate(360deg); }
+          100% { -moz-transform:scale(0) rotate(720deg); }
+      }
+      @-ms-keyframes batman-transition-grow {
+          0% { -ms-transform:scale(0) rotate(0deg); }
+          40% { -ms-transform:scale(0.7) rotate(360deg); }
+          45% { -ms-transform:scale(0.9); }
+          50% { -ms-transform:scale(1);}
+          55% { -ms-transform:scale(0.8) rotate(360deg); }
+          100% { -ms-transform:scale(0) rotate(720deg); }
+      }
+      @keyframes batman-transition-grow {
+          0% { transform:scale(0) rotate(0deg); }
+          40% { transform:scale(0.7) rotate(360deg); }
+          45% { transform:scale(0.9); }
+          50% { transform:scale(1);}
+          55% { transform:scale(0.8) rotate(360deg); }
+          100% { transform:scale(0) rotate(720deg); }
+      }
     </style>
   </head>
   <body>
-  <div id="bg">
-    <img src="img/ponyville_background_1_by_scootaloooo-d4stsj3.png" class="v-display" alt="background should be here, but it derped, sorry." data-id="0">
+
+  <div class="batman-transition">
+    <div class="batman-transition-logo"></div>
+    <div class="batman-transition-text">Loading...</div>
   </div>
   <!-- JavaScript -->
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="pinkie.js"></script>
-    <script>
-        var pinkie = new Pinkie();  // And into her own reflection she stared, ...
-        pinkie.beReady(false); // fun awaits.
-        //pinkie.click_will_close = true;
-    </script>
-    <script>
+  <script src="pinkie.js"></script>
+  <script>
+      var pinkie = new Pinkie();  // And into her own reflection she stared, ...
+      pinkie.beReady(false); // fun awaits.
+      pinkie.click_will_close = false;  // people would be sad.
+  </script>
+  <div id="bg">
+    <img src="img/simple_ponyville_background_by_dipi11-d5lyblg.svg" class="v-display" alt="Background image. If nobody ate it." data-id="0">
+  </div>
+  <script>
+      $(function () {
+          $('.batman-transition').addClass("no-batman");
+      });
       var backgrounds = [
-          'ponyville_background_1_by_scootaloooo-d4stsj3.png'
+          'simple_ponyville_background_by_dipi11-d5lyblg.svg'
         , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
+        , 'ponyville_background_1_by_scootaloooo-d4stsj3.png'
         , 'background3_by_scootaloooo-d4t1xmp.png'
         , 'bg1_by_mlp_vector_collabs-d50sedv.svg'
         , 'bg10_1_by_mlp_vector_collabs-d5ortfn.svg'
@@ -65,6 +157,7 @@
         , 'vector_background12_by_mlp_vector_collabs-d5u9iam.svg'
         , 'mlp_fim___twilight__s_laboratory_by_sigmavirus1-d4w6r2w.png'
       ];
+      var loaded_backgrounds = [];
       var now = new Date();
       if (now.getMonth() === 12) {
           backgrounds[backgrounds.length] = 'ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png';
@@ -74,29 +167,58 @@
           backgrounds[backgrounds.length] = 'lake_at_night_by_xpesifeindx-d5wwkwg.svg';
       }
 
-    var current = 0;
+    var current_to_load = 0, current_loaded = 0;
     function getImg(image) {
         return "img/"+image;
     }
-    function nextBackground() {
-        current++;
-        current = current % backgrounds.length;
-        if (!$("#bg img[data-id='"+current+"']").length) {
-            var new_img = $('<img alt="background should be here, but it derped, sorry." data-id="'+current+'">');
-            new_img.attr('src', getImg(backgrounds[current]));
+    function loadBackground() {
+        current_to_load++;
+        current_to_load %= backgrounds.length;
+        var current_img = $("#bg img[data-id='" + current_to_load + "']");
+        if (!current_img.length) {
+            var new_img = $('<img alt="Background image. If nobody ate it." class="v-hidden" data-id="' + current_to_load + '">');
+            new_img.attr('src', getImg(backgrounds[current_to_load]));
+            new_img.on('load', function (e) {
+                self = $(this);
+                loaded_backgrounds.push(self);
+                console.log("img " + self.attr('data-id') + " loaded", loaded_backgrounds, self);
+                if (backgrounds.length > loaded_backgrounds.length) {
+                    setTimeout(loadBackground, 1000);
+                }
+            });
             $('#bg').append(new_img);
+            console.log("img " + current_to_load + " added", new_img);
+            current_img = new_img;
         }
-        for (var i = 0; i < backgrounds.length; i++) {
-            var img = $("#bg img[data-id='"+i+"']");
-            if (i <= current) {
+    }
+    function nextBackground() {
+        var loaded = loaded_backgrounds.length;
+        if (!loaded) {
+            // none are loaded yet, modulo would result in NaN :D
+            return;
+        }
+        current_loaded = ((current_loaded+2) % (loaded+1))-1;  // so we get -1 and elements in loaded_backgrounds.
+
+        // now display one of the loaded ones
+        for (var i = 0; i < loaded; i++) {
+            var img = loaded_backgrounds[i];
+            //size 4: [1,2,3,4]
+            //-1 -> [x;_,_,_,_] (xxx,x)
+            // 0 -> [x;x,_,_,_] (xxx,0)
+            // 1 -> [x;x,x,_,_] (1-1,1)
+            // 2 -> [x;_,x,x,_] (2-1,2)
+            // 3 -> [x;_,_,x,x] (3-1,3)
+            if (i === current_loaded - 1 || i === current_loaded) {
                 // display
                 img.removeClass("v-hidden").addClass("v-display");
+                console.log("img "+img.attr('data-id')+" will be shown");
             } else {
                 img.removeClass("v-display").addClass("v-hidden");
             }
         }
     }
-    setInterval(nextBackground, 1000*10);
+    setInterval(nextBackground, 10000);
+    loadBackground();
     </script>
   </body>
 </html>
