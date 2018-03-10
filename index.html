@@ -133,6 +133,7 @@
   <!-- JavaScript -->
 
   <script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="polyfill.js"></script>
   <script src="pinkie.js"></script>
   <script src="//cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script><script>Raven.config('https://3743bfcf55874c0183c10eb744c3ff0e@sentry.bonbotics.io/11').install()</script>
   <script>
@@ -218,8 +219,8 @@
             }
         }
     }
-    setInterval(nextBackground, 10000);
-    loadBackground();
+    setInterval(Raven.wrap(nextBackground), 10000);
+    Raven.wrap(loadBackground)();
     </script>
   </body>
 </html>

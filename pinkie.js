@@ -194,15 +194,17 @@ Pinkie.prototype = {
     },
     beReady: function (disableAutostart,disableFirstApril, disableEastereggClass) {
         // attach several function to the body onload event
+        // Using .bind else `this` would later be the document, and not this instance.
         if(!disableAutostart) {
+            console.log("bootung1");
             $(this.create.bind(this));
         }
-        if(disableAutostart && !disableFirstApril) {
+        if(!!disableAutostart && !disableFirstApril) {
             $(this.checkAprilFool.bind(this));
         }
         if (!disableEastereggClass) {
             $(this.registerEastereggClass.bind(this));
         }
-        return this; // else `this` would be the document, and not this instance.
+        return this;
     }
 };
