@@ -7,8 +7,7 @@ function Pinkie(url) {
 Pinkie.prototype = {
     last_pos: 0,  // stores the last position, to allow flipping it
     is_tilt: false,
-    id: "easteregg-pinkie-pie",
-    //img_url = "http://iambrony.steeph.tp-radio.de/mlp/gif/455837__safe_solo_pinkie%2Bpie_animated_smile_happy_pointy%2Bponies_jumping_pronking_bouncing.gif",
+    id: "jumping-pinkie",
     //img_url = "https://derpicdn.net/img/view/2013/10/25/455837.gif",
     img_url: pinkie_gif,
     click_will_close: false, // change this to true to allow deletion by click/tab.
@@ -51,8 +50,7 @@ Pinkie.prototype = {
         if (this.element === null) {
             // only create if not created yet.
             var img = $('<img/>');
-            img.addClass("pinkie-pie");
-            img.addClass("easteregg");
+            img.addClass("pinkie");
             img.attr("id", this.id);
             img.attr("src", this.img_url);
             var scale = this.calc_scale();
