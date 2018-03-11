@@ -20,12 +20,6 @@
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css?family=Bangers&text=Loading." rel="stylesheet">
     <style>
-      .v-hidden {
-        opacity: 0.0;
-      }
-      .v-display {
-        opacity: 1.0;
-      }
       #bg {
         position: fixed;
         top: -50%;
@@ -43,8 +37,6 @@
         margin: auto;
         min-width: 50%;
         min-height: 50%;
-        transition: opacity 1s;
-        -webkit-transition: opacity 1s;
       }
       .batman-transition,body {
         width: 100%;
@@ -132,7 +124,7 @@
   </div>
   <!-- JavaScript -->
 
-  <script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
   <script src="polyfill.js"></script>
   <script src="pinkie.js"></script>
   <script src="//cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script>
@@ -143,43 +135,46 @@
       pinkie.click_will_close = false;  // people would be sad.
   </script>
   <div id="bg">
-    <img src="img/simple_ponyville_background_by_dipi11-d5lyblg.svg" class="v-display" alt="Background image. If nobody ate it." data-id="0">
+    <img src="img/simple_ponyville_background_by_dipi11-d5lyblg.svg" alt="Background image. If nobody ate it." data-id="0" style="z-index: 1">
   </div>
   <script>
-      $(function () {
-          $('.batman-transition').addClass("no-batman").remove();
-      });
-      var backgrounds = [
-          'simple_ponyville_background_by_dipi11-d5lyblg.svg'
-        , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
-        , 'ponyville_background_1_by_scootaloooo-d4stsj3.png'
-        , 'background3_by_scootaloooo-d4t1xmp.png'
-        , 'bg1_by_mlp_vector_collabs-d50sedv.svg'
-        , 'bg10_1_by_mlp_vector_collabs-d5ortfn.svg'
-        , 'vector_ponyvilleoutskirts01_by_mlp_vector_collabs-d5t0fm1.svg'
-        , 'vector_background12_by_mlp_vector_collabs-d5u9iam.svg'
-        , 'mlp_fim___twilight__s_laboratory_by_sigmavirus1-d4w6r2w.png'
-      ];
-      var loaded_backgrounds = [];
-      var now = new Date();
-      if (now.getMonth() === 12) {
-          backgrounds[backgrounds.length] = 'ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png';
-      }
-      if (now.getHours() > 22 || now.getHours() < 4) {
-          backgrounds[backgrounds.length] = 'orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg';
-          backgrounds[backgrounds.length] = 'lake_at_night_by_xpesifeindx-d5wwkwg.svg';
-      }
+    $(function () {
+        $('.batman-transition').addClass("no-batman").remove();
+    });
+    function getImg$(i) {
+        return $("#bg").find("img[data-id='" + i + "']");
+    }
+    var backgrounds = [
+        'simple_ponyville_background_by_dipi11-d5lyblg.svg'
+      , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
+      , 'ponyville_background_1_by_scootaloooo-d4stsj3.png'
+      , 'background3_by_scootaloooo-d4t1xmp.png'
+      , 'bg1_by_mlp_vector_collabs-d50sedv.svg'
+      , 'bg10_1_by_mlp_vector_collabs-d5ortfn.svg'
+      , 'vector_ponyvilleoutskirts01_by_mlp_vector_collabs-d5t0fm1.svg'
+      , 'vector_background12_by_mlp_vector_collabs-d5u9iam.svg'
+      , 'mlp_fim___twilight__s_laboratory_by_sigmavirus1-d4w6r2w.png'
+    ];
+    var loaded_backgrounds = [getImg$(0)];
+    var now = new Date();
+    if (now.getMonth() === 12) {
+        backgrounds[backgrounds.length] = 'ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png';
+    }
+    if (now.getHours() > 22 || now.getHours() < 4) {
+        backgrounds[backgrounds.length] = 'orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg';
+        backgrounds[backgrounds.length] = 'lake_at_night_by_xpesifeindx-d5wwkwg.svg';
+    }
 
-    var current_to_load = 0, current_loaded = 0;
+    var current_to_load = 0, current_shown = 0;
     function getImg(image) {
         return "img/"+image;
     }
     function loadBackground() {
         current_to_load++;
         current_to_load %= backgrounds.length;
-        var current_img = $("#bg img[data-id='" + current_to_load + "']");
-        if (!current_img.length) {
-            var new_img = $('<img alt="Background image. If nobody ate it." class="v-hidden" data-id="' + current_to_load + '">');
+        var current_img = getImg$(current_to_load);
+        if (!current_img.length) { // image doesn't exist
+            var new_img = $('<img alt="Background image. If nobody ate it." data-id="' + current_to_load + '">');
             new_img.attr('src', getImg(backgrounds[current_to_load]));
             new_img.on('load', function (e) {
                 self = $(this);
@@ -189,35 +184,29 @@
                     setTimeout(loadBackground, 1000);
                 }
             });
+            new_img.css({"display": "none", "z-index": 1});
             $('#bg').append(new_img);
             console.log("img " + current_to_load + " added", new_img);
             current_img = new_img;
         }
     }
     function nextBackground() {
+        // determinate the images to display/hide
         var loaded = loaded_backgrounds.length;
         if (!loaded) {
             // none are loaded yet, modulo would result in NaN :D
             return;
         }
-        current_loaded = ((current_loaded+2) % (loaded+1))-1;  // so we get -1 and elements in loaded_backgrounds.
+        var last_shown = current_shown;
+        current_shown = (current_shown + 1) % loaded;
 
-        // now display one of the loaded ones
-        for (var i = 0; i < loaded; i++) {
-            var img = loaded_backgrounds[i];
-            //size 4: [1,2,3,4]
-            //-1 -> [x;_,_,_,_] (xxx,x)
-            // 0 -> [x;x,_,_,_] (xxx,0)
-            // 1 -> [x;x,x,_,_] (1-1,1)
-            // 2 -> [x;_,x,x,_] (2-1,2)
-            // 3 -> [x;_,_,x,x] (3-1,3)
-            if (i === current_loaded - 1 || i === current_loaded) {
-                // display
-                img.removeClass("v-hidden").addClass("v-display");
-            } else {
-                img.removeClass("v-display").addClass("v-hidden");
-            }
-        }
+        // now display one of the loaded ones, and hide the previous.
+        // z-index: [pile, new, old]
+        loaded_backgrounds[last_shown].css('z-index', 3); // move on top, so when fading, the new one will be seen.
+        loaded_backgrounds[current_shown].css('z-index', 2).show();  // over the pile of images, below the old one.
+        loaded_backgrounds[last_shown].fadeOut(1000, function () {
+            $(this).css('z-index', 1); // move back into the pile
+        });
     }
     setInterval(Raven.wrap(nextBackground), 10000);
     Raven.wrap(loadBackground)();
