@@ -49,14 +49,20 @@ _________|     |   F    |J   F    |   //_/-'
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css?family=Bangers&text=Loading." rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300" rel="stylesheet">
     <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
       #bg {
         position: fixed;
         top: -50%;
         left: -50%;
         width: 200%;
         height: 200%;
-        z-index: 1;
+        z-index: -999;
+        overflow: hidden;
       }
       #bg img {
         position: absolute;
@@ -68,10 +74,52 @@ _________|     |   F    |J   F    |   //_/-'
         min-width: 50%;
         min-height: 50%;
       }
+      #wrapper {
+        position: relative;
+        min-height: 100%;
+        height: 100%;
+        margin: 0 auto -24px;
+
+        display: block;
+        clear: both;
+      }
+
+      #footer-push, #footer{
+        height: 24px;
+        font-size: 12px;
+      }
+      #footer {
+        /* make it not go out of bounds */
+        overflow: hidden;
+        white-space: nowrap;
+        color: white;
+        text-overflow: ellipsis;
+        /* end of out of bounds */
+        padding: 3px;
+        padding-left: 8px;
+        font-family: 'Source Sans Pro',sans;
+        font-size: 18px;
+        border-top: 1px solid white;
+        text-align: left;
+        background-color: grey;
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+        -webkit-box-shadow: inset 1px 3px 10px rgba(0, 0, 0, 1);
+           -moz-box-shadow: inset 1px 3px 10px rgba(0, 0, 0, 1);
+            -ms-box-shadow: inset 1px 3px 10px rgba(0, 0, 0, 1);
+             -o-box-shadow: inset 1px 3px 10px rgba(0, 0, 0, 1);
+                box-shadow: inset 1px 3px 10px rgba(0, 0, 0, 1);
+      }
+      #footer a {
+        text-decoration: underline;
+        color: white;
+      }
       .batman-transition,body {
         width: 100%;
         height: 100%;
-        overflow: hidden !important;
+      }
+      .batman-transition {
+          overflow: hidden !important;
       }
       .batman-transition-logo {
           background-image: url("img/pinkiepiecm_by_uxyd-d50y91m.svg");
@@ -147,100 +195,109 @@ _________|     |   F    |J   F    |   //_/-'
     </style>
   </head>
   <body>
-  <!-- loader -->
-  <div class="batman-transition">
-    <div class="batman-transition-logo"></div>
-    <div class="batman-transition-text">Loading...</div>
-  </div>
-  <!-- JavaScript -->
+  <div id="wrapper">
+    <!-- loader -->
+    <div class="batman-transition">
+      <div class="batman-transition-logo"></div>
+      <div class="batman-transition-text">Loading...</div>
+    </div>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="polyfill.js"></script>
-  <script src="pinkie.js"></script>
-  <script src="//cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script>
-  <script>Raven.config('https://3743bfcf55874c0183c10eb744c3ff0e@sentry.bonbotics.io/11').install()</script>
-  <script>
-      var pinkie = new Pinkie();  // And into her own reflection she stared, ...
-      pinkie.beReady(false); // fun awaits.
-      pinkie.click_will_close = false;  // people would be sad.
-  </script>
-  <div id="bg">
-    <img src="img/simple_ponyville_background_by_dipi11-d5lyblg.svg" alt="Background image. If nobody ate it." data-id="0" style="z-index: 1">
-  </div>
-  <script>
-    $(function () {
-        $('.batman-transition').addClass("no-batman").remove();
-    });
-    function getImg$(i) {
-        return $("#bg").find("img[data-id='" + i + "']");
-    }
-    var backgrounds = [
-        'simple_ponyville_background_by_dipi11-d5lyblg.svg'
-      , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
-      , 'ponyville_background_1_by_scootaloooo-d4stsj3.png'
-      , 'background3_by_scootaloooo-d4t1xmp.png'
-      , 'bg1_by_mlp_vector_collabs-d50sedv.svg'
-      , 'bg10_1_by_mlp_vector_collabs-d5ortfn.svg'
-      , 'vector_ponyvilleoutskirts01_by_mlp_vector_collabs-d5t0fm1.svg'
-      , 'vector_background12_by_mlp_vector_collabs-d5u9iam.svg'
-      , 'mlp_fim___twilight__s_laboratory_by_sigmavirus1-d4w6r2w.png'
-    ];
-    var loaded_backgrounds = [getImg$(0)];
-    var now = new Date();
-    if (now.getMonth() === 12) { // december
-        backgrounds.push('ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png');
-    }
-    if (now.getHours() > 22 || now.getHours() < 4) {  // night
-        backgrounds.push('orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg');
-        backgrounds.push('lake_at_night_by_xpesifeindx-d5wwkwg.svg');
-    }
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="polyfill.js"></script>
+    <script src="pinkie.js"></script>
+    <script src="//cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script>
+      <script src="http://192.168.178.27:8080/target/target-script-min.js#anonymous"></script>
 
-    var current_to_load = 0, current_shown = 0;
-    function getImg(image) {
-        return "img/"+image;
-    }
-    function loadBackground() {
-        current_to_load++;
-        current_to_load %= backgrounds.length;
-        var current_img = getImg$(current_to_load);
-        if (!current_img.length) { // image doesn't exist
-            var new_img = $('<img alt="Background image. If nobody ate it." data-id="' + current_to_load + '">');
-            new_img.attr('src', getImg(backgrounds[current_to_load]));
-            new_img.on('load', function (e) {
-                self = $(this);
-                loaded_backgrounds.push(self);
-                console.log("img " + self.attr('data-id') + " loaded", loaded_backgrounds, self);
-                if (backgrounds.length > loaded_backgrounds.length) {
-                    setTimeout(loadBackground, 1000);
-                }
-            });
-            new_img.css({"display": "none", "z-index": 1});
-            $('#bg').append(new_img);
-            console.log("img " + current_to_load + " added", new_img);
-            current_img = new_img;
-        }
-    }
-    function nextBackground() {
-        // determinate the images to display/hide
-        var loaded = loaded_backgrounds.length;
-        if (!loaded) {
-            // none are loaded yet, modulo would result in NaN :D
-            return;
-        }
-        var last_shown = current_shown;
-        current_shown = (current_shown + 1) % loaded;
-
-        // now display one of the loaded ones, and hide the previous.
-        // z-index: [pile, new, old]
-        loaded_backgrounds[last_shown].css('z-index', 3); // move on top, so when fading, the new one will be seen.
-        loaded_backgrounds[current_shown].css('z-index', 2).show();  // over the pile of images, below the old one.
-        loaded_backgrounds[last_shown].fadeOut(1000, function () {
-            $(this).css('z-index', 1); // move back into the pile
-        });
-    }
-    setInterval(Raven.wrap(nextBackground), 30000);
-    Raven.wrap(loadBackground)();
+    <script>Raven.config('https://3743bfcf55874c0183c10eb744c3ff0e@sentry.bonbotics.io/11').install()</script>
+    <script>
+        var pinkie = new Pinkie();  // And into her own reflection she stared, ...
+        pinkie.click_will_close = false;  // people would be sad.
+        pinkie.append_to_selector = "#wrapper"; // so she jumps above our footer
+        pinkie.use_fixed_position = false;  // use "position: absolute".
+        pinkie.beReady(false); // fun awaits.
     </script>
-    <!-- Note: Littlepip is best pony. -->
+    <!-- background -->
+    <div id="bg">
+      <img src="img/simple_ponyville_background_by_dipi11-d5lyblg.svg" alt="Background image. If nobody ate it." data-id="0" style="z-index: 1">
+    </div>
+    <script>
+      $(function () {
+          $('.batman-transition').addClass("no-batman").remove();
+      });
+      function getImg$(i) {
+          return $("#bg").find("img[data-id='" + i + "']");
+      }
+      var backgrounds = [
+          'simple_ponyville_background_by_dipi11-d5lyblg.svg'
+        , 'mlp_fim_background2_by_scootaloooo-d4t0kzu.png'
+        , 'ponyville_background_1_by_scootaloooo-d4stsj3.png'
+        , 'background3_by_scootaloooo-d4t1xmp.png'
+        , 'bg1_by_mlp_vector_collabs-d50sedv.svg'
+        , 'bg10_1_by_mlp_vector_collabs-d5ortfn.svg'
+        , 'vector_ponyvilleoutskirts01_by_mlp_vector_collabs-d5t0fm1.svg'
+        , 'vector_background12_by_mlp_vector_collabs-d5u9iam.svg'
+        , 'mlp_fim___twilight__s_laboratory_by_sigmavirus1-d4w6r2w.png'
+      ];
+      var loaded_backgrounds = [getImg$(0)];
+      var now = new Date();
+      if (now.getMonth() === 12) { // december
+          backgrounds.push('ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png');
+      }
+      if (now.getHours() > 22 || now.getHours() < 4) {  // night
+          backgrounds.push('orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg');
+          backgrounds.push('lake_at_night_by_xpesifeindx-d5wwkwg.svg');
+      }
+
+      var current_to_load = 0, current_shown = 0;
+      function getImg(image) {
+          return "img/"+image;
+      }
+      function loadBackground() {
+          current_to_load++;
+          current_to_load %= backgrounds.length;
+          var current_img = getImg$(current_to_load);
+          if (!current_img.length) { // image doesn't exist
+              var new_img = $('<img alt="Background image. If nobody ate it." data-id="' + current_to_load + '">');
+              new_img.attr('src', getImg(backgrounds[current_to_load]));
+              new_img.on('load', function (e) {
+                  self = $(this);
+                  loaded_backgrounds.push(self);
+                  console.log("img " + self.attr('data-id') + " loaded", loaded_backgrounds, self);
+                  if (backgrounds.length > loaded_backgrounds.length) {
+                      setTimeout(loadBackground, 1000);
+                  }
+              });
+              new_img.css({"display": "none", "z-index": 1});
+              $('#bg').append(new_img);
+              console.log("img " + current_to_load + " added", new_img);
+              current_img = new_img;
+          }
+      }
+      function nextBackground() {
+          // determinate the images to display/hide
+          var loaded = loaded_backgrounds.length;
+          if (!loaded) {
+              // none are loaded yet, modulo would result in NaN :D
+              return;
+          }
+          var last_shown = current_shown;
+          current_shown = (current_shown + 1) % loaded;
+
+          // now display one of the loaded ones, and hide the previous.
+          // z-index: [pile, new, old]
+          loaded_backgrounds[last_shown].css('z-index', 3); // move on top, so when fading, the new one will be seen.
+          loaded_backgrounds[current_shown].css('z-index', 2).show();  // over the pile of images, below the old one.
+          loaded_backgrounds[last_shown].fadeOut(1000, function () {
+              $(this).css('z-index', 1); // move back into the pile
+          });
+      }
+      setInterval(Raven.wrap(nextBackground), 30000);
+      Raven.wrap(loadBackground)();
+    </script>
+  </div>
+  <div id="footer-push"></div>
+  <div id="footer">You can fork me on <a href="//github.com/pinkiepie-fun/pinkiepie.fun/">github</a>.</div>
+  <!-- Note: Littlepip is best pony. -->
   </body>
 </html>
