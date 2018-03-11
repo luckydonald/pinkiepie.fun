@@ -157,12 +157,12 @@
     ];
     var loaded_backgrounds = [getImg$(0)];
     var now = new Date();
-    if (now.getMonth() === 12) {
-        backgrounds[backgrounds.length] = 'ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png';
+    if (now.getMonth() === 12) { // december
+        backgrounds.push('ponyville_dawn__snowy_by_stinkehund-d5ne9hb.png');
     }
-    if (now.getHours() > 22 || now.getHours() < 4) {
-        backgrounds[backgrounds.length] = 'orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg';
-        backgrounds[backgrounds.length] = 'lake_at_night_by_xpesifeindx-d5wwkwg.svg';
+    if (now.getHours() > 22 || now.getHours() < 4) {  // night
+        backgrounds.push('orchard_sunset_by_mlp_vector_collabs-d5fp99h.svg');
+        backgrounds.push('lake_at_night_by_xpesifeindx-d5wwkwg.svg');
     }
 
     var current_to_load = 0, current_shown = 0;
