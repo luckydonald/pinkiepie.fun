@@ -5,12 +5,15 @@ function Pinkie(url) {
     this.img_url = url || pinkie_gif;
 }
 Pinkie.prototype = {
-    last_pos: 0,  // stores the last position, to allow flipping it
-    is_tilt: false,
+    // settable arguments:
     id: "jumping-pinkie",
-    //img_url = "https://derpicdn.net/img/view/2013/10/25/455837.gif",
-    img_url: pinkie_gif,
+    img_url: pinkie_gif, // "https://derpicdn.net/img/view/2013/10/25/455837.gif"
+    append_to_selector: 'body', // where to append it to.
+    use_fixed_position: true, // true: "fixed", false: "absolute", else the value is used.
     click_will_close: false, // change this to true to allow deletion by click/tab.
+    // now stuff storing state etc.
+    last_pos: 0,  // stores the last position, to allow flipping it
+    use_gravity: false,  // if the position can be determined by gravity, will ignore click/touch.
     element: null, // jquery instance of pinkie
     visible: false, // will be true when shown, false if not.
     log: function () {  // set this to some other function to shut Pinkie's logging up.
@@ -54,9 +57,10 @@ Pinkie.prototype = {
             img.attr("id", this.id);
             img.attr("src", this.img_url);
             var scale = this.calc_scale();
+            var position = this.use_fixed_position === true ? "fixed" : (this.use_fixed_position === false ? "absolute" : this.use_fixed_position);
             var css = {
                 "z-index": 10000,
-                "position": "fixed",
+                "position": position,
                 "display": "block",
                 "right": 0,
                 "bottom": 0,
@@ -67,7 +71,7 @@ Pinkie.prototype = {
             img.css(this.calc_maxsize());
             this.element = img;
         }
-        this.element.appendTo(document.body);
+        this.element.appendTo($(this.append_to_selector));
         this.visible = true;
         this.bind();
     },
@@ -83,7 +87,7 @@ Pinkie.prototype = {
             this.remove.bind(this)();
         }.bind(this));
     },
-    calc_side: function (new_pos, flip_on, flip_off, rotate) {
+    calc_flip: function (new_pos, flip_on, flip_off, rotate) {
         if (new_pos === this.last_pos) {
             return {};
         }
@@ -104,7 +108,7 @@ Pinkie.prototype = {
     onOrient: function (e) {
         var t = e.originalEvent || e;
         if (t.gamma) {
-            self.is_tilt = true;
+            self.use_gravity = true;
         }
         var elem = this.element;
         var degree = t.gamma;
@@ -154,11 +158,11 @@ Pinkie.prototype = {
         }
         //var rotation = degree * -1;
         var rotate = 'rotate(' + rotation + 'deg)';
-        css = $.extend(css, this.calc_side(new_pos, flip_on, flip_off, rotate));
+        css = $.extend(css, this.calc_flip(new_pos, flip_on, flip_off, rotate));
         this.element.css(css);
     },
-    setPos: function (e) {
-        if (self.is_tilt) {
+    setPos: function (x) {
+        if (self.use_gravity) {
             return;
         }
         var w = $(window).width(),
@@ -169,7 +173,7 @@ Pinkie.prototype = {
         css["bottom"] = 0;
         css["right"] = "";
         css["left"] = new_pos + "px";
-        css = $.extend(css, this.calc_side(new_pos, "scale(-1, 1)", ""));
+        css = $.extend(css, this.calc_flip(new_pos, "scale(-1, 1)", ""));
         this.element.css(css);
     },
     onMove: function (e) {
@@ -177,8 +181,13 @@ Pinkie.prototype = {
         this.setPos(x);
     },
     onTouchMove: function (e) {
+        e = e.originalEvent || e;  // jquery
+        if (!e.touches.length) {
+            return;
+        }
         var touch = e.touches[0],
             x = touch.pageX;
+        this.log(touch);
         this.setPos(x);
     },
     onClick: function (e) {
@@ -193,7 +202,8 @@ Pinkie.prototype = {
             .on("click.pinkie", this.onClick.bind(this))
             .on('mousemove.pinkie', this.onMove.bind(this))
             .on('touchmove.pinkie', this.onTouchMove.bind(this))
-            .on('touchstart.pinkie', this.onTouchMove.bind(this));
+            .on('touchstart.pinkie', this.onTouchMove.bind(this))
+            .on('touchend.pinkie', this.onTouchMove.bind(this));
         if (window.DeviceOrientationEvent) {
             $(window).on("deviceorientation.pinkie", this.onOrient.bind(this));
             //window.addEventListener("deviceorientation", this.onOrient.bind(this), false);
