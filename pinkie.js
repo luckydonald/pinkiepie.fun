@@ -182,12 +182,11 @@ Pinkie.prototype = {
     },
     onTouchMove: function (e) {
         e = e.originalEvent || e;  // jquery
-        if (!e.touches.length) {
+        if (!e.touches.length) {  // no touches
             return;
         }
         var touch = e.touches[0],
             x = touch.pageX;
-        this.log(touch);
         this.setPos(x);
     },
     onClick: function (e) {
